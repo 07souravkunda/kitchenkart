@@ -1,0 +1,22 @@
+.order-modal {
+  position: fixed;
+  width: 50%;
+  height: 300px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border: black solid 1px;
+  z-index: 20;
+}
+
+.modal-close {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+}
+
+.order-button-modal {
+  justify-content: space-between;
+}
