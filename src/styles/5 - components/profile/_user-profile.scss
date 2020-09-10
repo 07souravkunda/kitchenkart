@@ -71,6 +71,13 @@
   object-fit: cover;
 }
 
+.user-profile-img1 {
+  width: 80px;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .user-profile-edit {
   position: absolute;
   right: $s-size;

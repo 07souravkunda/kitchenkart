@@ -16,8 +16,6 @@ const Filters = (props) => {
 		sortBy: props.filter.sortBy
 	});
 
-	
-
 
 	const dispatch = useDispatch();
 	const max = selectMax(props.products);
@@ -38,8 +36,6 @@ const Filters = (props) => {
 	const [categories, setCategories] = useState([]);
 
 
-
-
 	const onCategoryFilterChange = (e) => {
 		const val = e.target.value;
 
@@ -47,24 +43,22 @@ const Filters = (props) => {
 	};
 
 	useEffect(() => {
-		const db =  (firebase.getDBInstance());
+		const db = (firebase.getDBInstance());
 
-		 db.collection("products").get().then(docSnapshotList => {
-			if(docSnapshotList.empty){
+		 db.collection('products').get().then((docSnapshotList) => {
+			if (docSnapshotList.empty) {
 				// Nothing message
 				return;
 			}
-
-			setCategories(docSnapshotList.docs.map(d => d.get("category")).filter(d => !!d))
-		}).catch(err => console.error(err))
+			const cat = [...new Set(docSnapshotList.docs.map(d => d.get('category')))];
+			setCategories(cat);
+		}).catch(err => console.error(err));
 
 		return () => {
 			// cleanup function
-			console.log("Unmounted");
-			
-		}
-	} ,[])
-
+			console.log('Unmounted');
+		};
+	}, []);
 	
 
 	const onApplyFilter = () => {
@@ -82,7 +76,7 @@ const Filters = (props) => {
 	};
 
 	const onResetFilter = () => {
-		const filterFields = ['brand', 'minPrice', 'maxPrice', 'sortBy','category'];
+		const filterFields = ['brand', 'minPrice', 'maxPrice', 'sortBy', 'category'];
 
 		if (filterFields.some(key => !!props.filter[key])) {
 			dispatch(resetFilter());
@@ -90,47 +84,54 @@ const Filters = (props) => {
 			props.closeModal();
 		}
 	};
+	console.log(window.location);
 
 	return (
 		<div className="filters">				
-		
 			<div className="filters-field">
-				<h1>category</h1>
+				 <h1>Category</h1>
 				<br />
 				<br />
 				{props.productsLength === 0 && props.isLoading ? (
 					<h5 className="text-subtle">Loading Filter</h5>
 				) : (
-                        <select 
-                            style={{width:'100%'}}
-							className="filters-brand"
-							value={field.category}
-							disabled={props.isLoading || props.productsLength === 0}
-							onChange={onCategoryFilterChange}
-						>
-							<option value="">All Categories</option>
-							{		
-								categories.map(c => <option value={c.toLowerCase()} key={c}>{c}</option>)
-							}
+					<select 
+						className="filters-brand"
+						disabled={props.isLoading || props.productsLength === 0}
+						onChange={onCategoryFilterChange}
+						style={{ width: '100%' }}
+						value={field.category}
+					>
+						<option value="">All Categories</option>
+						{		
+							categories.map(c => <option key={c}
+								value={c.toLowerCase()}
+							                    >{c}</option>)
+						}
 							
-						</select>
-					)}
+					</select>
+				)}
 			</div>
-			<div className="filters-action">
+			<div className="filters-action"
+				style={window.innerWidth < 500 ? { flexDirection: 'column' } : {}}
+			
+			>
 				<button
 					className="filters-button button button-small"
 					disabled={props.isLoading || props.productsLength === 0}
 					onClick={onApplyFilter}
+					style={window.innerWidth < 500 ? { width: '50%' } : {}}
 				>
 					Apply filters
-        </button>
+				</button>
 				<button
 					className="filters-button button button-border button-small"
 					disabled={props.isLoading || props.productsLength === 0}
 					onClick={onResetFilter}
+					style={window.innerWidth < 500 ? { width: '50%' } : {}}
 				>
 					Reset filters
-        </button>
+				</button>
 			</div>
 		</div>
 	);

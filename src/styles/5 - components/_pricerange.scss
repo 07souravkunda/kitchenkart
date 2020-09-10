@@ -20,7 +20,7 @@
 
 .price-range-input {
   border: none !important;
-  font-size: 4rem !important;
+  font-size: 3rem !important;
   border-bottom: 2px solid transparent !important;
   padding: 0;
   flex-grow: 1;
@@ -34,7 +34,7 @@
 
 .price-input-error {
   color: red !important;
-  background: transparentize(red, .9);
+  background: transparentize(red, 0.9);
 }
 
 .price-range-scale {

@@ -58,7 +58,7 @@ const Navigation = ({ isAuth, path, history }) => {
 		ROUTE.FORGOT_PASSWORD
 	];
 
-	return window.screen.width <= 480 ? (
+	return window.innerWidth <= 480 ? (
 		<MobileNavigation
 			basketLength={store.basketLength}
 			disabledPaths={basketDisabledPaths}
@@ -73,25 +73,27 @@ const Navigation = ({ isAuth, path, history }) => {
 				ref={navbar}
 			>
 				<div className="logo">
-					<Link onClick={onClickLink} to="/">
+					<Link onClick={onClickLink}
+to="/"
+					>
 						<img src={logo} />
 					</Link>
 				</div>
 				{path === ROUTE.HOME && (
 					<>
 						<SearchBar
-							isLoading={store.isLoading}
 							filter={store.filter}
 							history={history}
+							isLoading={store.isLoading}
 							productsLength={store.productsLength}
 						/>
           &nbsp;
 						<FiltersToggle
 							filter={store.filter}
+							history={history}
 							isLoading={store.isLoading}
 							products={store.products}
 							productsLength={store.productsLength}
-							history={history}
 						>
 							<button className="button-muted button-small">
 								More Filters &nbsp;<i className="fa fa-chevron-right" />
@@ -99,10 +101,10 @@ const Navigation = ({ isAuth, path, history }) => {
 						</FiltersToggle>
 						<CategoryToggle
 							filter={store.filter}
+							history={history}
 							isLoading={store.isLoading}
 							products={store.products}
 							productsLength={store.productsLength}
-							history={history}
 						>
 							<button className="button-muted button-small">
 								Categories &nbsp;<i className="fa fa-chevron-right" />
@@ -121,7 +123,9 @@ const Navigation = ({ isAuth, path, history }) => {
 								>
 
 									<Badge count={store.basketLength}>
-										<i className="fa fa-shopping-basket" style={{ fontSize: '2rem' }} />
+										<i className="fa fa-shopping-basket"
+style={{ fontSize: '2rem' }}
+										/>
 									</Badge>
 								</button>
 							)}
@@ -129,7 +133,9 @@ const Navigation = ({ isAuth, path, history }) => {
 					</li>
 					{isAuth ? (
 						<li className="navigation-menu-item">
-							<UserAvatar isAuthenticating={store.isAuthenticating} profile={store.profile} />
+							<UserAvatar isAuthenticating={store.isAuthenticating}
+profile={store.profile}
+							/>
 						</li>
 					) : (
 							<li className="navigation-action">

@@ -6,7 +6,7 @@ import { applyFilter } from 'actions/filterActions';
 
 const ProductAppliedFilters = ({ filter }) => {
 	const dispatch = useDispatch();
-	const fields = ['brand', 'minPrice', 'maxPrice', 'sortBy', 'keyword','category'];
+	const fields = ['brand', 'minPrice', 'maxPrice', 'sortBy', 'keyword', 'category'];
 
 	const onRemoveKeywordFilter = () => {
 		dispatch(applyFilter({ keyword: '' }));
@@ -35,7 +35,9 @@ const ProductAppliedFilters = ({ filter }) => {
 					<span className="d-block">Keyword</span>
 					<div className="pill padding-right-l">
 						<h5 className="pill-content margin-0">{filter.keyword}</h5>
-						<div className="pill-remove" onClick={onRemoveKeywordFilter}>
+						<div className="pill-remove"
+							onClick={onRemoveKeywordFilter}
+						>
 							<h5 className="margin-0 text-subtle"><i className="fa fa-times-circle" /></h5>
 						</div>
 					</div>
@@ -46,7 +48,9 @@ const ProductAppliedFilters = ({ filter }) => {
 					<span className="d-block">Brand</span>
 					<div className="pill padding-right-l">
 						<h5 className="pill-content margin-0">{filter.brand}</h5>
-						<div className="pill-remove" onClick={onRemoveBrandFilter}>
+						<div className="pill-remove"
+							onClick={onRemoveBrandFilter}
+						>
 							<h5 className="margin-0 text-subtle"><i className="fa fa-times-circle" /></h5>
 						</div>
 					</div>
@@ -57,7 +61,9 @@ const ProductAppliedFilters = ({ filter }) => {
 					<span className="d-block">Category</span>
 					<div className="pill padding-right-l">
 						<h5 className="pill-content margin-0">{filter.category}</h5>
-						<div className="pill-remove" onClick={onRemoveCategoryFilter}>
+						<div className="pill-remove"
+							onClick={onRemoveCategoryFilter}
+						>
 							<h5 className="margin-0 text-subtle"><i className="fa fa-times-circle" /></h5>
 						</div>
 					</div>
@@ -68,7 +74,9 @@ const ProductAppliedFilters = ({ filter }) => {
 					<span className="d-block">Price Range</span>
 					<div className="pill padding-right-l">
 						<h5 className="pill-content margin-0">${filter.minPrice} - ${filter.maxPrice}</h5>
-						<div className="pill-remove" onClick={onRemovePriceRangeFilter}>
+						<div className="pill-remove"
+							onClick={onRemovePriceRangeFilter}
+						>
 							<h5 className="margin-0 text-subtle"><i className="fa fa-times-circle" /></h5>
 						</div>
 					</div>

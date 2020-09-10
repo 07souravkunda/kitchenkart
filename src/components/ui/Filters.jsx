@@ -251,23 +251,21 @@ const Filters = (props) => {
 	const [categories, setCategories] = useState([]);
 
 	useEffect(() => {
-		const db =  (firebase.getDBInstance());
+		const db = (firebase.getDBInstance());
 
-		 db.collection("products").get().then(docSnapshotList => {
-			if(docSnapshotList.empty){
+		 db.collection('products').get().then((docSnapshotList) => {
+			if (docSnapshotList.empty) {
 				// Nothing message
 				return;
 			}
-
-			setCategories(docSnapshotList.docs.map(d => d.get("brand")).filter(d => !!d))
-		}).catch(err => console.error(err))
+		
+			setCategories([...new Set(docSnapshotList.docs.map(d => d.get('brand')))]);
+		}).catch((err) => {});
 
 		return () => {
 			// cleanup function
-			console.log("Unmounted");
-			
-		}
-	} ,[])
+		};
+	}, []);
 
 	return (
 		<div className="filters">
@@ -278,23 +276,25 @@ const Filters = (props) => {
 				{props.productsLength === 0 && props.isLoading ? (
 					<h5 className="text-subtle">Loading Filter</h5>
 				) : (
-						<select
-							className="filters-brand"
-							value={field.brand}
-							disabled={props.isLoading || props.productsLength === 0}
-							onChange={onBrandFilterChange}
-						>
-							{/* <option value="">All Brands</option>
+					<select
+						className="filters-brand"
+						disabled={props.isLoading || props.productsLength === 0}
+						onChange={onBrandFilterChange}
+						value={field.brand}
+					>
+						{/* <option value="">All Brands</option>
 							<option value="nike">Nike</option>
 							<option value="betsin">Betsin Maalat</option>
 							<option value="black">Black Kibal</option>
 							<option value="sexbomb">Sexbomb</option> */}
-								<option value="">All Brands</option>
+						<option value="">All Brands</option>
  							{		      
-								categories.map(c => <option value={c.toLowerCase()} key={c}>{c}</option>)
+							categories.map(c => <option key={c}
+								value={c.toLowerCase()}
+							                    >{c}</option>)
  							}
-						</select>
-					)}
+					</select>
+				)}
 			</div>
 			<div className="filters-field">
 				<span>Sort By</span>
@@ -302,9 +302,9 @@ const Filters = (props) => {
 				<br />
 				<select
 					className="filters-sort-by d-block"
-					value={field.sortBy}
 					disabled={props.isLoading || props.productsLength === 0}
 					onChange={onSortFilterChange}
+					value={field.sortBy}
 				>
 					<option value="">None</option>
 					<option value="name-asc">Name Ascending A - Z</option>
@@ -320,16 +320,16 @@ const Filters = (props) => {
 				{props.productsLength === 0 && props.isLoading ? (
 					<h5 className="text-subtle">Loading Filter</h5>
 				) : (
-						<PriceRange
-							min={min}
-							max={max}
-							initMin={field.minPrice}
-							initMax={field.maxPrice}
-							isLoading={props.isLoading}
-							onPriceChange={onPriceChange}
-							productsLength={props.productsLength}
-						/>
-					)}
+					<PriceRange
+						initMax={field.maxPrice}
+						initMin={field.minPrice}
+						isLoading={props.isLoading}
+						max={max}
+						min={min}
+						onPriceChange={onPriceChange}
+						productsLength={props.productsLength}
+					/>
+				)}
 			</div>
 			<div className="filters-action">
 				<button
@@ -338,14 +338,14 @@ const Filters = (props) => {
 					onClick={onApplyFilter}
 				>
 					Apply filters
-        </button>
+				</button>
 				<button
 					className="filters-button button button-border button-small"
 					disabled={props.isLoading || props.productsLength === 0}
 					onClick={onResetFilter}
 				>
 					Reset filters
-        </button>
+				</button>
 			</div>
 		</div>
 	);

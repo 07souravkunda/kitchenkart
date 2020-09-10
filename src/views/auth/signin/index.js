@@ -25,7 +25,7 @@ const SignIn = (props) => {
 	const [signInStatus, setSignInStatus] = useState({});
 	const [isSigningIn, setIsSigningIn] = useState(false);
 	const [field, setField] = useState({});
-	// --- 
+	// ---
 	const dispatch = useDispatch();
 	const didMount = useDidMount();
 
@@ -35,7 +35,6 @@ const SignIn = (props) => {
 			setIsSigningIn(isAuthenticating);
 		}
 	}, [authStatus, isAuthenticating]);
-
 
 	const onEmailInput = (e, value, error) => {
 		setField({ ...field, email: { value, error } });
@@ -64,7 +63,9 @@ const SignIn = (props) => {
 
 	const onSubmitForm = (e) => {
 		e.preventDefault();
-		const noError = Object.keys(field).every(key => !!field[key].value && !field[key].error);
+		const noError = Object.keys(field).every(
+			key => !!field[key].value && !field[key].error
+		);
 
 		if (noError) {
 			dispatch(signIn(field.email.value, field.password.value));
@@ -89,98 +90,104 @@ const SignIn = (props) => {
 				</div>
 			)}
 			{signInStatus.message && (
-				<h5 className="text-center toast-error">
-					{authStatus.message}
-				</h5>
+				<h5 className="text-center toast-error">{authStatus.message}</h5>
 			)}
 			{!isSuccess && (
-				<>
-					<div className={`signin ${signInStatus.message && (!authStatus.success && 'input-error')}`}>
-						<div className="signin-main">
-							<h3>Sign in to Kitchen Cart</h3>
-							<br />
-							<div className="signin-wrapper">
-								<form onSubmit={onSubmitForm}>
-									<div className="signin-field">
-										<Input
-											label="Email"
-											readOnly={isSigningIn}
-											placeholder="text@example.com"
-											onInputChange={onEmailInput}
-											isRequired={true}
-											field="email"
-											type="email"
-										/>
-									</div>
-									<div className="signin-field">
-										<Input
-											label="Password"
-											readOnly={isSigningIn}
-											placeholder="Your Password"
-											onInputChange={onPasswordInput}
-											isRequired={true}
-											showError={false}
-											field="password"
-											type="password"
-										/>
-									</div>
-									<br />
-									<div className="signin-field signin-action">
-										<Link
-											onClick={onClickLink}
-											style={{ textDecoration: 'underline' }}
-											to={FORGOT_PASSWORD}
-										>
-											<span>Forgot password?</span>
-										</Link>
-										<button
-											className="button signin-button"
-											disabled={isSigningIn}
-											type="submit"
-										>
-											<CircularProgress
-												theme="light"
-												visible={isSigningIn && providerSelected === 'signin'}
-											/>
-											{isSigningIn && providerSelected === 'signin' ? 'Signing In' : 'Sign In'}
-										</button>
-									</div>
-								</form>
-							</div>
-						</div>
-						<div className="signin-divider">
-							<h6>OR</h6>
-						</div>
-						<div className="signin-provider">
-						
-							<button
-								className="button signin-provider-button provider-google"
-								disabled={isSigningIn}
-								onClick={onSignInWithGoogle}
-							>
-								{isSigningIn && providerSelected === 'google' ? (
-									<CircularProgress theme="dark" />
-								) : (
-										<i className="fab fa-google" />
-									)}
-								<span>Sign in with Google</span>
-							</button>
-							
-						</div>
-					</div>
-					<div className="signin-message">
-						<span className="signin-info">
-							<strong>Don't have an account?</strong>
-						</span>
-						<button
-							className="button button-small button-border button-border-gray"
-							disabled={isSigningIn}
-							onClick={onSignUp}
-						>
-							Sign Up
-            </button>
-					</div>
-				</>
+        <>
+          <div
+          	className={`signin ${
+          		signInStatus.message && !authStatus.success && 'input-error'
+          	}`}
+          >
+          	<div className="signin-main">
+          		<h3>Sign in to Kitchen Cart</h3>
+          		<br />
+          		<div className="signin-wrapper">
+          			<form onSubmit={onSubmitForm}>
+          				<div className="signin-field">
+          					<Input
+          						field="email"
+          						isRequired
+          						label="Email"
+          						onInputChange={onEmailInput}
+          						placeholder="text@example.com"
+          						readOnly={isSigningIn}
+          						type="email"
+          					/>
+          				</div>
+          				<div className="signin-field">
+          					<Input
+          						field="password"
+          						isRequired
+          						label="Password"
+          						onInputChange={onPasswordInput}
+          						placeholder="Your Password"
+          						readOnly={isSigningIn}
+          						showError={false}
+          						type="password"
+          					/>
+          				</div>
+          				<br />
+          				<div className="signin-field signin-action">
+          					<Link
+          						onClick={onClickLink}
+          						style={{ textDecoration: 'underline' }}
+          						to={FORGOT_PASSWORD}
+          					>
+          						<span>Forgot password?</span>
+          					</Link>
+          					<button
+          						className="button signin-button"
+          						disabled={isSigningIn}
+          						type="submit"
+          					>
+          						<CircularProgress
+          							theme="light"
+          							visible={isSigningIn && providerSelected === 'signin'}
+          						/>
+          						{isSigningIn && providerSelected === 'signin'
+          							? 'Signing In'
+          							: 'Sign In'}
+          					</button>
+          				</div>
+          			</form>
+          		</div>
+          	</div>
+          	{!window.isNative && window.innerWidth > 500 ? (
+              <>
+                <div className="signin-divider">
+                	<h6>OR</h6>
+                </div>
+                <div className="signin-provider">
+                	<button
+                		className="button signin-provider-button provider-google"
+                		disabled={isSigningIn}
+                		onClick={onSignInWithGoogle}
+                	>
+                		{isSigningIn && providerSelected === 'google' ? (
+                			<CircularProgress theme="dark" />
+                		) : (
+                			<i className="fab fa-google" />
+                		)}
+                		<span>Sign in with Google</span>
+                	</button>
+                </div>
+              </>
+          	) : null}
+          </div>
+          <div className="signin-message">
+          	<span className="signin-info">
+          		<strong>Don't have an account?</strong>
+          	</span>
+          	<button
+          		className="button button-small button-border button-border-gray"
+          		disabled={isSigningIn}
+          		onClick={onSignUp}
+          	>
+              Sign Up
+          	</button>
+          </div>
+        </>
 			)}
 		</div>
 	);

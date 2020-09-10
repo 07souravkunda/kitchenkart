@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { clearRecentSearch, removeSelectedRecent, setTextFilter } from 'actions/filterActions';
 
 import Filters from '../ui/Filters';
+import CategoryToggle from '../ui/CategoryToggle';
+import FiltersCategory from '../ui/FiltersCategory';
 
 const ProductSearch = (props) => {
 	const {
@@ -68,10 +70,14 @@ const ProductSearch = (props) => {
 				<div className="product-search-recent">
 					<div className="product-search-recent-header">
 						<h5>Recent Searches</h5>
-						<h5 onClick={onClearRecentSearch} style={{ color: 'red' }}>Clear</h5>
+						<h5 onClick={onClearRecentSearch}
+							style={{ color: 'red' }}
+						>Clear</h5>
 					</div>
 					{filter.recent.map((item, index) => (
-						<div className="pill-wrapper" key={`${item}${index}`}>
+						<div className="pill-wrapper"
+							key={`${item}${index}`}
+						>
 							<div className="pill padding-right-l">
 								<h5
 									className="pill-content margin-0"
@@ -82,7 +88,9 @@ const ProductSearch = (props) => {
 								>
 									{item}
 								</h5>
-								<div className="pill-remove" onClick={() => dispatch(removeSelectedRecent(item))}>
+								<div className="pill-remove"
+									onClick={() => dispatch(removeSelectedRecent(item))}
+								>
 									<h5 className="text-subtle margin-0"><i className="fa fa-times-circle" /></h5>
 								</div>
 							</div>
@@ -96,6 +104,23 @@ const ProductSearch = (props) => {
 					<h5 className="margin-0">Choose Filters</h5>
 				</div>
 				<div className="product-search-filter-sub">
+					{/* <FiltersCategory dispatch={dispatch}
+						filter={filter}
+						isLoading={isLoading}
+						products={products}
+						productsLength={productsLength}
+					/> */}
+					<CategoryToggle
+						filter={filter}
+						history={props.history}
+						isLoading={isLoading}
+						products={products}
+						productsLength={productsLength}
+					>
+						<button className="button-muted button-small">
+								Categories &nbsp;<i className="fa fa-chevron-right" />
+						</button>
+					</CategoryToggle>
 					<Filters
 						dispatch={dispatch}
 						filter={filter}
@@ -103,6 +128,7 @@ const ProductSearch = (props) => {
 						products={products}
 						productsLength={productsLength}
 					/>
+					
 				</div>
 			</div>
 		</div>
